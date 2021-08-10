@@ -1,5 +1,6 @@
+import React, { Suspense, useContext } from "react";
+
 import {
-  BrowserRouter,
   Switch,
   Route,
   //  Redirect
@@ -8,30 +9,47 @@ import {
 import "./App.css";
 
 import Layout from "./components/UI/Layout/Layout";
-import HomePage from "./pages/HomePage";
-import CategoriesPage from "./pages/CategoriesPage";
-import ProductDetailPage from "./pages/ProductDetailPage";
+import LoadingSpinner from "./components/UI/LoadingSpinner";
+import AuthContext from "./hooks-store/auth-context";
+
+const HomePage = React.lazy(() => import("./pages/HomePage"));
+const CategoriesPage = React.lazy(() => import("./pages/CategoriesPage"));
+const ProductDetailPage = React.lazy(() => import("./pages/ProductDetailPage"));
+// const SignInPage = React.lazy(() => import("./pages/SignInPage"));
+const SignUpPage = React.lazy(() => import("./pages/SignUpPage"));
+
+const suspenseFallback = (
+  <div className="centered">
+    <LoadingSpinner />
+  </div>
+);
 
 function App() {
+  const authCtx = useContext(AuthContext);
+
   return (
-    <BrowserRouter>
-      <Layout>
+    <Layout>
+      <Suspense fallback={suspenseFallback}>
         <Switch>
-          <Route path="/" exact>
-            <HomePage />
-          </Route>
-          <Route path="/category/:categoryName" exact>
-            <CategoriesPage />
-          </Route>
-          <Route path="/category/:categoryName/:productType/:productId" exact>
-            <ProductDetailPage />
-          </Route>
+          <Route exact path="/" component={HomePage} />
+          <Route
+            exact
+            path="/category/:categoryName"
+            component={CategoriesPage}
+          />
+          <Route
+            exact
+            path="/category/:categoryName/:productType/:productId"
+            component={ProductDetailPage}
+          />
+          {/* <Route exact path="/sign-in" component={SignInPage} /> */}
+          <Route exact path="/sign-up" component={SignUpPage} />
           {/* <Route path="*">
-            <Redirect to="/" />
-          </Route> */}
+        <Redirect to="/" />
+      </Route> */}
         </Switch>
-      </Layout>
-    </BrowserRouter>
+      </Suspense>
+    </Layout>
   );
 }
 

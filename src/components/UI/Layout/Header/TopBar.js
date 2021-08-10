@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
+import { NavLink } from "react-router-dom";
 
 import { useStore } from "../../../../hooks-store/store";
+import AuthContext from "../../../../hooks-store/auth-context";
 
 export default function TopBar() {
   const state = useStore()[0];
+  const authCtx = useContext(AuthContext);
 
   const favoritesCount = state.products.filter(
     (product) => product.isFavorite
@@ -32,13 +35,13 @@ export default function TopBar() {
           </div>
           <div className="col-lg-4 col-sm-6 col-12">
             <div className="widgets-wrap float-md-right">
-              <div className="widget-header  mr-3">
+              <div title="My Cart" className="widget-header  mr-3">
                 <a className="icon icon-sm rounded-circle border">
                   <i className="fa fa-shopping-cart"></i>
                 </a>
                 <span className="badge badge-pill badge-danger notify">0</span>
               </div>
-              <div className="widget-header  mr-3">
+              <div title="My Wishlist" className="widget-header  mr-3">
                 <a className="icon icon-sm rounded-circle border">
                   <i className="fa fa-heart"></i>
                 </a>
@@ -46,17 +49,33 @@ export default function TopBar() {
                   {favoritesCount}
                 </span>
               </div>
-              <div className="widget-header icontext">
-                <a className="icon icon-sm rounded-circle border">
-                  <i className="fa fa-user"></i>
-                </a>
-                <div className="text">
-                  <span className="text-muted">Welcome!</span>
-                  <div>
-                    <a>Sign in</a> |<a> Register</a>
+              {!authCtx.isLoggedIn && (
+                <>
+                  <div title="Sign In" className="widget-header  mr-3">
+                    <NavLink
+                      to="/sign-in"
+                      className="icon icon-sm rounded-circle border"
+                    >
+                      <i className="fa fa-sign-in-alt"></i>
+                    </NavLink>
                   </div>
+                  <div title="Sign Up" className="widget-header  mr-3">
+                    <NavLink
+                      to="/sign-up"
+                      className="icon icon-sm rounded-circle border"
+                    >
+                      <i className="fa fa-user-plus"></i>
+                    </NavLink>
+                  </div>
+                </>
+              )}
+              {authCtx.isLoggedIn && (
+                <div className="widget-header icontext">
+                  <a className="icon icon-sm rounded-circle border">
+                    <i className="fa fa-user"></i>
+                  </a>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
