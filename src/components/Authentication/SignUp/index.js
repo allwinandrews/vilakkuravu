@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 import classes from "./index.module.css";
 import SignUpImage from "../../../assets/images/signup-image.jpg";
@@ -81,7 +82,7 @@ export default function SignUp() {
                   type="submit"
                   name="signup"
                   id="signup"
-                  className="form-submit"
+                  className={classes["form-submit"]}
                   value="Register"
                 />
               </div>
@@ -91,9 +92,9 @@ export default function SignUp() {
             <figure>
               <img src={SignUpImage} alt="sing up image" />
             </figure>
-            <a href="#" className={classes["signup-image-link"]}>
+            <Link to="/sign-in" className={classes["signup-image-link"]}>
               I am already member
-            </a>
+            </Link>
           </div>
         </div>
       </div>

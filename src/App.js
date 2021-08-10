@@ -15,7 +15,7 @@ import AuthContext from "./hooks-store/auth-context";
 const HomePage = React.lazy(() => import("./pages/HomePage"));
 const CategoriesPage = React.lazy(() => import("./pages/CategoriesPage"));
 const ProductDetailPage = React.lazy(() => import("./pages/ProductDetailPage"));
-// const SignInPage = React.lazy(() => import("./pages/SignInPage"));
+const SignInPage = React.lazy(() => import("./pages/SignInPage"));
 const SignUpPage = React.lazy(() => import("./pages/SignUpPage"));
 
 const suspenseFallback = (
@@ -42,7 +42,7 @@ function App() {
             path="/category/:categoryName/:productType/:productId"
             component={ProductDetailPage}
           />
-          {/* <Route exact path="/sign-in" component={SignInPage} /> */}
+          <Route exact path="/sign-in" component={SignInPage} />
           <Route exact path="/sign-up" component={SignUpPage} />
           {/* <Route path="*">
         <Redirect to="/" />
