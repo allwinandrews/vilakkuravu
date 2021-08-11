@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import classes from "./index.module.css";
+import classes from "../Authentication.module.css";
 import SignInImage from "../../../assets/images/signin-image.jpg";
 
 export default function SignIn() {
@@ -47,7 +47,7 @@ export default function SignIn() {
                   placeholder="Password"
                 />
               </div>
-              <div className={classes["form-group"]}>
+              {/* <div className={classes["form-group"]}>
                 <input
                   type="checkbox"
                   name="remember-me"
@@ -63,7 +63,7 @@ export default function SignIn() {
                   </span>
                   Remember me
                 </label>
-              </div>
+              </div> */}
               <div className="form-group form-button">
                 <input
                   type="submit"

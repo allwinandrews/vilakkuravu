@@ -1,16 +1,23 @@
 import React, { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 
 import { useStore } from "../../../../hooks-store/store";
 import AuthContext from "../../../../hooks-store/auth-context";
 
 export default function TopBar() {
+  const history = useHistory();
+
   const state = useStore()[0];
   const authCtx = useContext(AuthContext);
 
   const favoritesCount = state.products.filter(
     (product) => product.isFavorite
   ).length;
+
+  const logoutHandler = () => {
+    authCtx.logout();
+    history.replace("/");
+  };
 
   return (
     <section className="header-main border-bottom">
@@ -70,11 +77,22 @@ export default function TopBar() {
                 </>
               )}
               {authCtx.isLoggedIn && (
-                <div className="widget-header icontext">
-                  <a className="icon icon-sm rounded-circle border">
-                    <i className="fa fa-user"></i>
-                  </a>
-                </div>
+                <>
+                  <div title="Profile" className="widget-header icontext">
+                    <a className="icon icon-sm rounded-circle border">
+                      <i className="fa fa-user"></i>
+                    </a>
+                  </div>
+                  <div
+                    title="Sign Out"
+                    className="widget-header icontext"
+                    onClick={logoutHandler}
+                  >
+                    <a className="icon icon-sm rounded-circle border">
+                      <i className="fa fa-sign-out-alt"></i>
+                    </a>
+                  </div>
+                </>
               )}
             </div>
           </div>

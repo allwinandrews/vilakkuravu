@@ -1,32 +1,94 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { useHistory, Link } from "react-router-dom";
 
-import classes from "./index.module.css";
+import AuthContext from "../../../hooks-store/auth-context";
 import SignUpImage from "../../../assets/images/signup-image.jpg";
+import classes from "../Authentication.module.css";
 
 export default function SignUp() {
+  const history = useHistory();
+
+  const authCtx = useContext(AuthContext);
+
+  const [loginState, setLoginState] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [IsLoading, setIsLoading] = useState(false);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setLoginState((prevState) => {
+      const newLoginState = { ...prevState, [name]: value };
+
+      return newLoginState;
+    });
+  };
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    console.log("object");
+    setIsLoading(true);
+
+    const google_key = "AIzaSyANl0MA_PV5lo0s_zlDliTFs5I5X6HZyEg";
+    const url =
+      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=" +
+      google_key;
+
+    const { email, password } = loginState;
+
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        email,
+        password,
+        returnSecureToken: true,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        setIsLoading(false);
+
+        if (res.ok) {
+          return res.json();
+        } else {
+          return res.json().then((data) => {
+            let errorMessage = "Authentication Failed";
+            // if (data && data.error && data.error.message) {
+            //   errorMessage = data.error.message;
+            // }
+
+            throw new Error(errorMessage);
+          });
+        }
+      })
+      .then((data) => {
+        const expirationTime = new Date(
+          new Date().getTime() + +data.expiresIn * 1000
+        );
+        authCtx.login(data.idToken, expirationTime);
+        history.replace("/");
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  };
+
+  let isPasswordsSame = false;
+  if (loginState.password !== loginState.confirmPassword)
+    isPasswordsSame = true;
+
   return (
-    <section className={classes.signup}>
+    <section className={classes["sign-up"]}>
       <div className={classes.container}>
         <div className={classes["signup-content"]}>
           <div className={classes["signup-form"]}>
             <h2 className={classes["form-title"]}>Sign up</h2>
-            <form
-              method="POST"
-              className={classes["register-form"]}
-              id="register-form"
-            >
-              <div className="form-group">
-                <label for="name">
-                  <i className="zmdi zmdi-account material-icons-name"></i>
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  placeholder="Your Name"
-                />
-              </div>
+            <form className={classes["register-form"]} onSubmit={submitHandler}>
               <div className={classes["form-group"]}>
                 <label for="email">
                   <i className="zmdi zmdi-email"></i>
@@ -34,8 +96,8 @@ export default function SignUp() {
                 <input
                   type="email"
                   name="email"
-                  id="email"
                   placeholder="Your Email"
+                  onChange={handleChange}
                 />
               </div>
               <div className={classes["form-group"]}>
@@ -44,9 +106,9 @@ export default function SignUp() {
                 </label>
                 <input
                   type="password"
-                  name="pass"
-                  id="pass"
+                  name="password"
                   placeholder="Password"
+                  onChange={handleChange}
                 />
               </div>
               <div className={classes["form-group"]}>
@@ -55,12 +117,13 @@ export default function SignUp() {
                 </label>
                 <input
                   type="password"
-                  name="re_pass"
-                  id="re_pass"
+                  name="confirmPassword"
                   placeholder="Repeat your password"
+                  onChange={handleChange}
                 />
               </div>
-              <div className={classes["form-group"]}>
+              {isPasswordsSame && <p>Password Mismatch</p>}
+              {/* <div className={classes["form-group"]}>
                 <input
                   type="checkbox"
                   name="agree-term"
@@ -76,15 +139,23 @@ export default function SignUp() {
                     Terms of service
                   </a>
                 </label>
-              </div>
+              </div> */}
               <div className="form-group form-button">
-                <input
-                  type="submit"
-                  name="signup"
-                  id="signup"
-                  className={classes["form-submit"]}
-                  value="Register"
-                />
+                {!IsLoading && (
+                  <button
+                    type="submit"
+                    name="signup"
+                    className={
+                      !isPasswordsSame
+                        ? classes["form-submit"]
+                        : classes["password-mismatch"]
+                    }
+                    disabled={isPasswordsSame}
+                  >
+                    Register
+                  </button>
+                )}
+                {IsLoading && <p>Sending Request...</p>}
               </div>
             </form>
           </div>
