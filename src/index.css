@@ -13,6 +13,7 @@ code {
 }
 
 .centered {
+  padding-top: 150px;
   margin: 3rem auto;
   text-align: center;
   display: flex;

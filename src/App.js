@@ -42,8 +42,12 @@ function App() {
             path="/category/:categoryName/:productType/:productId"
             component={ProductDetailPage}
           />
-          <Route exact path="/sign-in" component={SignInPage} />
-          <Route exact path="/sign-up" component={SignUpPage} />
+          {!authCtx.isLoggedIn && (
+            <Route exact path="/sign-in" component={SignInPage} />
+          )}
+          {!authCtx.isLoggedIn && (
+            <Route exact path="/sign-up" component={SignUpPage} />
+          )}
           {/* <Route path="*">
         <Redirect to="/" />
       </Route> */}
