@@ -3,6 +3,7 @@ import { useHistory, Link } from "react-router-dom";
 
 import AuthContext from "../../../hooks-store/auth-context";
 import SignUpImage from "../../../assets/images/signup-image.jpg";
+import SignUpPasswordInvalidList from "./SignUpPasswordInvalidList";
 import classes from "../Authentication.module.css";
 
 export default function SignUp() {
@@ -16,6 +17,15 @@ export default function SignUp() {
     confirmPassword: "",
   });
   const [IsLoading, setIsLoading] = useState(false);
+  const [isPasswordValid, setIsPasswordValid] = useState(true);
+
+  const passwordValidation = () => {
+    const reg =
+      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+    const isValid = reg.test(loginState.password);
+
+    setIsPasswordValid(isValid);
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -29,7 +39,6 @@ export default function SignUp() {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    console.log("object");
     setIsLoading(true);
 
     const google_key = "AIzaSyANl0MA_PV5lo0s_zlDliTFs5I5X6HZyEg";
@@ -90,7 +99,7 @@ export default function SignUp() {
             <h2 className={classes["form-title"]}>Sign up</h2>
             <form className={classes["register-form"]} onSubmit={submitHandler}>
               <div className={classes["form-group"]}>
-                <label for="email">
+                <label htmlFor="email">
                   <i className="zmdi zmdi-email"></i>
                 </label>
                 <input
@@ -101,7 +110,7 @@ export default function SignUp() {
                 />
               </div>
               <div className={classes["form-group"]}>
-                <label for="pass">
+                <label htmlFor="pass">
                   <i className="zmdi zmdi-lock"></i>
                 </label>
                 <input
@@ -109,10 +118,14 @@ export default function SignUp() {
                   name="password"
                   placeholder="Password"
                   onChange={handleChange}
+                  onBlur={passwordValidation}
                 />
               </div>
+              {!isPasswordValid && (
+                <SignUpPasswordInvalidList className={classes["validation-list"]} />
+              )}
               <div className={classes["form-group"]}>
-                <label for="re-pass">
+                <label htmlFor="re-pass">
                   <i className="zmdi zmdi-lock-outline"></i>
                 </label>
                 <input
@@ -130,7 +143,7 @@ export default function SignUp() {
                   id="agree-term"
                   className="agree-term"
                 />
-                <label for="agree-term" className={classes["label-agree-term"]}>
+                <label htmlFor="agree-term" className={classes["label-agree-term"]}>
                   <span>
                     <span></span>
                   </span>

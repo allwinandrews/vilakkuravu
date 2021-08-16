@@ -26,7 +26,7 @@ export default function SignIn() {
               id="login-form"
             >
               <div className={classes["form-group"]}>
-                <label for="your_name">
+                <label htmlFor="your_name">
                   <i className="zmdi zmdi-account material-icons-name"></i>
                 </label>
                 <input
@@ -37,7 +37,7 @@ export default function SignIn() {
                 />
               </div>
               <div className={classes["form-group"]}>
-                <label for="your_pass">
+                <label htmlFor="your_pass">
                   <i className="zmdi zmdi-lock"></i>
                 </label>
                 <input
@@ -55,7 +55,7 @@ export default function SignIn() {
                   className="agree-term"
                 />
                 <label
-                  for="remember-me"
+                  htmlFor="remember-me"
                   className={classes["label-agree-term"]}
                 >
                   <span>

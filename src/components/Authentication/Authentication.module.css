@@ -836,4 +836,14 @@ label.valid:after {
 .sign-in {
   padding-top: 10px;
 }
+.validation-list {
+  list-style: none;
+  padding: 0;
+}
+.validation-list li {
+  color: #fff;
+  padding: 5px 10px;
+  background-color: #cf1515;
+  border: 1px solid #ffffff;
+}
 /*# sourceMappingURL=style.css.map */
