@@ -449,7 +449,7 @@ figure {
   margin-top: 25px;
   cursor: pointer;
 }
-.password-mismatch {
+.error-button {
   display: inline-block;
   background: #e47b6d;
   color: #fff;
