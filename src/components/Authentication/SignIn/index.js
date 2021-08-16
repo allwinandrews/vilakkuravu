@@ -92,6 +92,8 @@ export default function SignIn() {
       });
   };
 
+  const isSignInButtonDisabled = loginState.isEmailValid && loginState.password;
+
   return (
     <section className={classes["sign-in"]}>
       <div className={classes.container}>
@@ -150,13 +152,22 @@ export default function SignIn() {
                 </label>
               </div> */}
               <div className="form-group form-button">
-                <input
-                  type="submit"
-                  name="signin"
-                  id="signin"
-                  className={classes["form-submit"]}
-                  value="Log in"
-                />
+                {!IsLoading && (
+                  <button
+                    type="submit"
+                    name="signin"
+                    id="signin"
+                    className={
+                      isSignInButtonDisabled
+                        ? classes["form-submit"]
+                        : classes["error-button"]
+                    }
+                    disabled={isSignInButtonDisabled}
+                  >
+                    Sign In
+                  </button>
+                )}
+                {IsLoading && <p>Sending Request...</p>}
               </div>
             </form>
           </div>

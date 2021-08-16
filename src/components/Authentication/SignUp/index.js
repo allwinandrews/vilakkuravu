@@ -161,7 +161,7 @@ export default function SignUp() {
                     className={
                       !isPasswordsSame
                         ? classes["form-submit"]
-                        : classes["password-mismatch"]
+                        : classes["error-button"]
                     }
                     disabled={isPasswordsSame}
                   >
