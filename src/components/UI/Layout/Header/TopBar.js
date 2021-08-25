@@ -49,9 +49,12 @@ export default function TopBar() {
                 <span className="badge badge-pill badge-danger notify">0</span>
               </div>
               <div title="My Wishlist" className="widget-header  mr-3">
-                <a className="icon icon-sm rounded-circle border">
+                <NavLink
+                  to="/my-wishlist"
+                  className="icon icon-sm rounded-circle border"
+                >
                   <i className="fa fa-heart"></i>
-                </a>
+                </NavLink>
                 <span className="badge badge-pill badge-danger notify">
                   {favoritesCount}
                 </span>

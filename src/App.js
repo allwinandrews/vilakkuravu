@@ -48,6 +48,9 @@ function App() {
           {!authCtx.isLoggedIn && (
             <Route exact path="/sign-up" component={SignUpPage} />
           )}
+          {/* {!authCtx.isLoggedIn && (
+            <Route exact path="/my-wishlist" component={MyWishlist} />
+          )} */}
           {/* <Route path="*">
         <Redirect to="/" />
       </Route> */}
