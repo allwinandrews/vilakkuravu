@@ -2,7 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 
 import SectionHeader from "../SectionHeader";
-import ProductGrid from "../ProductGrid";
+import ProductGrid from "../ProductGrid/ProductGrid";
 import SectionNameCard from "../UI/Cards/SectionNameCard";
 
 import Image1 from "../../assets/images/items/1.jpg";

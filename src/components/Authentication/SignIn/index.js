@@ -92,7 +92,9 @@ export default function SignIn() {
       });
   };
 
-  const isSignInButtonDisabled = loginState.isEmailValid && loginState.password;
+  const isSignInButtonDisabled = !(
+    loginState.isEmailValid && loginState.password
+  );
 
   return (
     <section className={classes["sign-in"]}>
@@ -158,7 +160,7 @@ export default function SignIn() {
                     name="signin"
                     id="signin"
                     className={
-                      isSignInButtonDisabled
+                      !isSignInButtonDisabled
                         ? classes["form-submit"]
                         : classes["error-button"]
                     }
