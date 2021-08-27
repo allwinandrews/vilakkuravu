@@ -4,8 +4,9 @@ let logoutTimer;
 
 const AuthContext = createContext({
   token: "",
+  localId: "",
   isLoggedIn: false,
-  login: (token) => {},
+  login: (token, local_id, expirationTime) => {},
   logout: () => {},
 });
 
@@ -31,7 +32,7 @@ const retrieveStoredToken = () => {
     return null;
   }
 
-  return { tokem: storedToken, duration: remainingTime };
+  return { token: storedToken, duration: remainingTime };
 };
 
 export const AuthContextProvider = (props) => {
@@ -40,11 +41,13 @@ export const AuthContextProvider = (props) => {
   const initialToken = tokenData ? tokenData.token : null;
 
   const [token, setToken] = useState(initialToken);
+  const [localId, setLocalId] = useState(null);
 
-  const userIsLoggedIn = !!token;
+  const userIsLoggedIn = !!localId;
 
   const logoutHandler = useCallback(() => {
     setToken(null);
+    setLocalId(null);
     localStorage.removeItem("token");
     localStorage.removeItem("expirationTime");
 
@@ -53,8 +56,9 @@ export const AuthContextProvider = (props) => {
     }
   }, []);
 
-  const loginHandler = (token, expirationTime) => {
+  const loginHandler = (token, local_id, expirationTime) => {
     setToken(token);
+    setLocalId(local_id);
     localStorage.setItem("token", token);
     localStorage.setItem("expirationTime", expirationTime);
 
@@ -71,6 +75,7 @@ export const AuthContextProvider = (props) => {
 
   const contextValue = {
     token,
+    localId,
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,
     logout: logoutHandler,

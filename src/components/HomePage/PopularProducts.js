@@ -3,7 +3,7 @@ import firebase from "firebase";
 
 import SectionHeader from "../SectionHeader";
 import SectionNameCard from "../UI/Cards/SectionNameCard";
-import ProductGrid from "../ProductGrid";
+import ProductGrid from "../ProductGrid/ProductGrid";
 import LoadingSpinner from "../UI/LoadingSpinner";
 
 import { useStore } from "../../hooks-store/store";
